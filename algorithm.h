@@ -1,14 +1,13 @@
-//
-// Created by marvin on 1/4/19.
-//
-
 #ifndef STEMER_ALGORITHM_H
 #define STEMER_ALGORITHM_H
 
 #include <stdlib.h>
 #include <string.h>
+#include "trie.h"
 
 
-char * lcs(const char * first, const char * second);
+void lcs(char * first, char * second, trie * trie, int msl);
 
-#endif //STEMER_ALGORITHM_H
+int char_to_lower(int c);
+
+#endif

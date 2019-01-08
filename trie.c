@@ -1,7 +1,3 @@
-//
-// Created by marvin on 1/3/19.
-//
-
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -53,22 +49,6 @@ void trie_add(trie *root, char *word) {
     }
 
     node->count++;
-}
-
-bool trie_contains(trie *root, char *word) {
-    trie * node = root;
-    char * que = word;
-
-    while (*que != '\0') {
-        if (node->childs[*que] == NULL) {
-            return false;
-        }
-
-        node = node->childs[*que];
-        que++;
-    }
-
-    return node->count > 0;
 }
 
 trie_iterator *trie_get_iterator(trie *root) {
@@ -163,6 +143,35 @@ trie_iterator *trie_clone_iterator(trie_iterator *iterator) {
     new_iterator->before = iterator->before;
     new_iterator->done = iterator->done;
     return new_iterator;
+}
+
+char * trie_common_sub_sequence(trie *root, const char *word) {
+    int max_length = 0;
+    int i;
+    int j;
+    char * buffer = malloc(sizeof(char) * 50);
+    trie * node;
+    size_t len = strlen(word);
+
+    buffer[0] = '\0';
+
+    for (i = 0; i < len; i++) {
+        j = 0;
+        node = root;
+        while (i + j < len) {
+            node = node->childs[(unsigned char)word[i+j]];
+            if (node == NULL) {
+                break;
+            }
+            if (j > max_length && node->count > 0) {
+                trie_create_word(node, buffer);
+                max_length = j;
+            }
+            j++;
+        }
+    }
+
+    return buffer;
 }
 
 
